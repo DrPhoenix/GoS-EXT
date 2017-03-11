@@ -1,4 +1,6 @@
-local mfloor = math.floor
+local version = "1.02"
+
+local mfloor, lpairs = math.floor, pairs
 
 local res = Game.Resolution()
 local width = res.x
@@ -35,6 +37,7 @@ local ChampionManaBarColor = {
 	['Brand'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Braum'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Caitlyn'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
+	['Camille'] = function (unit) if unit.mana == 100 then return Draw.Color(255, 200, 40, 0) elseif unit.mana >= 50 then return Draw.Color(255, 100, 100, 100) else return Draw.Color(255, 100, 100, 100) end end, 
 	['Cassiopeia'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Chogath'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Corki'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
@@ -75,7 +78,7 @@ local ChampionManaBarColor = {
 	['Kennen'] = function (unit) return Draw.Color(255, 178, 140, 1) end, 
 	['Khazix'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Kindred'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
-	['Kled'] = function (unit) return Draw.Color(255, 100, 100, 100) end, 
+	['Kled'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['KogMaw'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['Leblanc'] = function (unit) return Draw.Color(255, 1, 130, 181) end, 
 	['LeeSin'] = function (unit) return Draw.Color(255, 178, 140, 1) end, 
@@ -160,7 +163,7 @@ local function InitSprites()
 	UltUpSprite = Sprite("DragonAwareness/Others/hudUltUp.png")
 	UltCdSprite = Sprite("DragonAwareness/Others/hudUltCd.png")
 	
-	for i, hero in pairs(enemies) do
+	for i, hero in lpairs(enemies) do
 		ChampionSprite[hero.charName] = Sprite("DragonAwareness/Champions/"..hero.charName..".png", 0.62, 0.62)
 	end
 	
@@ -191,7 +194,7 @@ Callback.Add("Draw", function()
 	local x = width - 101
 	local y = 70
 	
-	for i, hero in pairs(enemies) do
+	for i, hero in lpairs(enemies) do
 		local y = y + (i - 1) * 120
 		local champName = hero.charName
 		local lvl = hero.levelData.lvl
